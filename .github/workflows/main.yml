@@ -3,6 +3,9 @@ name: Code Quailty and Linter
 # Controls when the workflow will run
 on:
   # Triggers the workflow on pull request events
+  push:
+    branches:
+      - '**'
   pull_request:
     branches:
       - '**'
@@ -25,6 +28,7 @@ jobs:
 
       - name: Run linters
         uses: wearerequired/lint-action@v1
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login == github.repository_owner }}
         with:
           black: true
           flake8: true
